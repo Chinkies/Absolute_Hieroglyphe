@@ -1,0 +1,1 @@
+Les rendus sont dans `rendus/sx` (avec x la semaine)

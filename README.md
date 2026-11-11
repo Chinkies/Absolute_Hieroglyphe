@@ -8,9 +8,11 @@ Les rendus sont dans `rendus/sx` (avec x la semaine)
 
 Créez un environnement virtuel Python `python -m venv .venv/`
 
-Installez les dépendances avec `./.venv/bin/python -m pip install -r requirements.txt`
+À partir d'ici, utiliser l'environnement virtuel
 
-Exécutez avec `./.venv/bin/python -m main.py`
+Installez les dépendances `python -m pip install -r requirements.txt`
+
+Exécutez avec `python -m main.py`
 
 ---
 

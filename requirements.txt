@@ -1,5 +1,5 @@
 scikit-learn==1.7.2
-tensorflow==2.22.0rc0
+tensorflow[and-cuda]==2.22.0rc0
 matplotlib==3.11.2
 
 tensorflow_datasets==4.9.10

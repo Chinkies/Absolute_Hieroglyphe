@@ -3,9 +3,11 @@ import os
 import PIL
 import PIL.Image
 import tensorflow as tf
+from sklearn.metrics import ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
 # import tensorflow_datasets as tfds
-
 import pathlib
+
 dataset_url = "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz"
 data_dir = tf.keras.utils.get_file(origin=dataset_url,
                                    fname='flower_photos',
@@ -15,13 +17,14 @@ data_dir = pathlib.Path(data_dir + '/flower_photos')
 image_count = len(list(data_dir.glob('*/*.jpg')))
 print(image_count)
 
-roses = list(data_dir.glob('roses/*'))
-PIL.Image.open(str(roses[0]))
+# roses = list(data_dir.glob('roses/*'))
+# PIL.Image.open(str(roses[0]))
 
-roses = list(data_dir.glob('roses/*'))
-PIL.Image.open(str(roses[1]))
+# roses = list(data_dir.glob('roses/*'))
+# PIL.Image.open(str(roses[1]))
 
 batch_size = 32*2
+epochs = 1
 img_height = 180
 img_width = 180
 
@@ -44,17 +47,21 @@ val_ds = tf.keras.utils.image_dataset_from_directory(
 class_names = train_ds.class_names
 print(class_names)
 
-import matplotlib.pyplot as plt
+print(len(val_ds))
+for i in val_ds:
+    print(i)
 
-# plt.figure(figsize=(10, 10))
-# for images, labels in train_ds.take(1):
-#     for i in range(9):
-#         ax = plt.subplot(3, 3, i + 1)
-#         plt.imshow(images[i].numpy().astype("uint8"))
-#         plt.title(class_names[labels[i]])
-#         plt.axis("off")
-#
-# plt.show()
+plt.figure(figsize=(10, 10))
+for images, labels in train_ds.take(1): # take first batch
+    print(len(images))
+    print(labels)
+    for i in range(9):
+        ax = plt.subplot(3, 3, i + 1)
+        plt.imshow(images[i].numpy().astype("uint8"))
+        plt.title(class_names[labels[i]])
+        plt.axis("off")
+
+plt.show()
 
 for image_batch, labels_batch in train_ds:
     print(image_batch.shape)
@@ -74,7 +81,7 @@ AUTOTUNE = tf.data.AUTOTUNE
 train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
-num_classes = 5
+num_classes = len(class_names)
 
 model = tf.keras.Sequential([
     tf.keras.layers.Rescaling(1./255),
@@ -97,11 +104,11 @@ model.compile(
 history = model.fit(
     train_ds,
     validation_data=val_ds,
-    epochs=2
+    epochs=epochs
 )
 
 # Test du modèle sur le jeu d'évaluation
-score = model.evaluate(train_ds, verbose=0)
+score = model.evaluate(val_ds, verbose=0)
 
 print(f"Test loss : {score[0]:4.4f}")
 print(f"Test accuracy : {score[1]:4.4f}")
@@ -116,8 +123,32 @@ plt.ylabel("Accuracy")
 plt.legend(['train', 'validation'], loc = 'upper left')
 plt.show()
 
+# Matrice de confusion
+class Estimator:
+    _estimator_type = ''
+    _classes = []
+    def __init__(self, _model, classes):
+        self.model = _model
+        self._estimator_type = 'classifier'
+        self._classes = classes
+    def predict(self, x):
+        y_prob = self.model.predict(x)
+        y_pred = y_prob.argmax(axis = 1)
+        return y_pred
+
+# class_names_nb = [0, 1, 2, 3, 4]
+
+classifier = Estimator(model, class_names)
+
+x_test = list(map(lambda x: x[0], val_ds))
+y_test = list(map(lambda x: x[1], val_ds))
+
+ConfusionMatrixDisplay.from_estimator(classifier, x_test, y_test)
+plt.show()
+
 exit(0)
 
+"""
 list_ds = tf.data.Dataset.list_files(str(data_dir/'*/*'), shuffle=False)
 list_ds = list_ds.shuffle(image_count, reshuffle_each_iteration=False)
 
@@ -208,4 +239,4 @@ _ = plt.title(get_label_name(label))
 train_ds = configure_for_performance(train_ds)
 val_ds = configure_for_performance(val_ds)
 test_ds = configure_for_performance(test_ds)
-
+"""

@@ -1,0 +1,25 @@
+{
+  "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/latex_cache/%RELATIVE_DIR%",
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-cache",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "copy-pdf",
+      "command": "cp",
+      "args": ["%OUTDIR%/%DOCFILE%.pdf", "%DIR%/"]
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    { "name": "latexmk + copie du PDF", "tools": ["latexmk-cache", "copy-pdf"] }
+  ]
+}

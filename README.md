@@ -6,9 +6,12 @@ Les rendus sont dans `rendus/sx` (avec x la semaine)
 
 ## Installation
 
-Pour installer l'environnement python, faites `./setup.sh`
+Dans un premier temps, il faut installer uv : `curl -LsSf https://astral.sh/uv/install.sh | sh`
+(leur site web se trouve [ici](https://docs.astral.sh/uv/]))
 
-Exécutez avec `python -m main.py`
+Une fois installé, pour configurer l'environnement, faites `uv sync`
+
+Pour utiliser cet environnement tapez `uv run [commande]`, par exemple `uv run python main.py`.
 
 ---
 

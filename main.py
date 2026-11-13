@@ -1,15 +1,6 @@
-# Importation deep learning
-import tensorflow as tf
-from tensorflow import keras
-
-# Importation data science
-import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay
-
-# Importation utilitaire
-import sys, os
-from importlib import reload
+from tensorflow import keras
 
 # Chargement des données
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
@@ -57,8 +48,8 @@ model.compile(optimizer = 'adam',
        metrics = ['accuracy'])
 
 # Paramètrres d'entraînement	  
-batch_size = 2**10
-epochs = 8
+batch_size = 2**12
+epochs = 1
 
 # Lancement de l'entraînement
 history = model.fit(x_train, y_train,

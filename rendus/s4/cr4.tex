@@ -13,12 +13,19 @@
 \begin{document}
 \maketitle
 
+\subsection{Avancement modèle}
+On a commencé par entraîner un modèle sur une seule caractéristique ('Pouces distingués'), il y a 1/3 d'image avec le label 'oui' et 2/3 'non' (sur 150 images), ce qui est relativement équilibré. On obtient ces résultats avec des batches de taille 16 et 8 epochs :
+
+![image](image.png)
+
+Note : Il y a de "l'overfitting": le modèle fonction bien mieux sur les données d'entrainement par rapport au données de test.
+
+\subsection{Potentiel approfondissement}
+Il existe aussi la méthode Zero-shot Learning. Cette méthode aurait un intérêt pour reconnaître des classes non vues, des classes / labels sur lesquels notre modèle n'aurait pas été entraîné.
+
 \section{Configuration de l'environnement}
 Nous avont utilisé l'outil \verb|uv| afin de gérer facilement Python, sa version et ses dépendances avec une installation facile\section{Autre techniques d'apprentissage}
 Nous avons commencé à nous renseigner et à comprendre comment fonctionne l'apprentissage Few-Shot Learning.
 Cette méthode nous permettrait d'avoir un entraînement plus adapté à la taille de notre base de données.
-
-\subsection{Potentiel approfondissement}
-Il existe aussi la méthode Zero-shot Learning. Cette méthode aurait un intérêt pour reconnaître des classes non vues, des classes / labels sur lesquels notre modèle n'aurait pas été entraîné.
 
 \end{document}

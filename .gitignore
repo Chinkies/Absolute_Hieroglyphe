@@ -4,3 +4,4 @@ latex_cache
 *.weights.*
 .venv
 /data/extractor
+/dataset

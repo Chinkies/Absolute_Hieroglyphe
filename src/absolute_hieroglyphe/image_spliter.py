@@ -1,9 +1,10 @@
 import csv
 import os
+import shutil
 
 csv_file = 'data/Tableau_imagette_MB.csv'
-img_dir = 'data/extractor/images/'
-dst_dir = 'data/extractor/'
+src_dir = 'data/Image_DAO_Sith/'
+dst_dir = 'dataset/'
 
 indicies = {'₁': '_1', '₂': '_2',  '₃': '_3',  '₄': '_4',  '₅': '_5',  '₆': '_6',  '₇': '_7',  '₈': '_8',  '₉': '_9'}
 
@@ -28,7 +29,7 @@ with open(csv_file) as f:
         for match in indicies.items():
             name = name.replace(match[0], match[1])
 
-        filename = img_dir + name
+        filename = src_dir + name
         if os.path.isfile(filename + '.jpg'):
             ext = '.jpg'
         else:
@@ -36,6 +37,6 @@ with open(csv_file) as f:
         filename += ext
 
         if os.path.isfile(filename):
-            os.rename(filename, dst + name + ext)
+            shutil.copyfile(filename, dst + name + ext)
         else:
             print(f"File '{filename}' doesn't exists")

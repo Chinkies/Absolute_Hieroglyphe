@@ -3,3 +3,4 @@ __pycache__
 latex_cache
 *.weights.*
 .venv
+/data/extractor

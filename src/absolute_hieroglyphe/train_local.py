@@ -8,14 +8,11 @@ import matplotlib.pyplot as plt
 # import tensorflow_datasets as tfds
 import pathlib
 
-dataset_url = "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz"
-data_dir = tf.keras.utils.get_file(origin=dataset_url,
-                                   fname='flower_photos',
-                                   untar=True)
-data_dir = pathlib.Path(data_dir + '/flower_photos')
+data_dir = pathlib.Path('dataset')
 
-image_count = len(list(data_dir.glob('*/*.jpg')))
-print(image_count)
+image_count_jpg = len(list(data_dir.glob('*/*.jpg')))
+image_count_png = len(list(data_dir.glob('*/*.png')))
+print(image_count_jpg + image_count_png)
 
 # roses = list(data_dir.glob('roses/*'))
 # PIL.Image.open(str(roses[0]))
@@ -23,8 +20,8 @@ print(image_count)
 # roses = list(data_dir.glob('roses/*'))
 # PIL.Image.open(str(roses[1]))
 
-batch_size = 32*2
-epochs = 1
+batch_size = 16
+epochs = 8
 img_height = 180
 img_width = 180
 
@@ -60,7 +57,6 @@ for images, labels in train_ds.take(1): # take first batch
         plt.imshow(images[i].numpy().astype("uint8"))
         plt.title(class_names[labels[i]])
         plt.axis("off")
-
 plt.show()
 
 for image_batch, labels_batch in train_ds:
@@ -122,6 +118,8 @@ plt.xlabel("Epoch")
 plt.ylabel("Accuracy")
 plt.legend(['train', 'validation'], loc = 'upper left')
 plt.show()
+
+exit(0)
 
 # Matrice de confusion
 class Estimator:

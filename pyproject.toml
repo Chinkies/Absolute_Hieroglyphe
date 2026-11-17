@@ -5,6 +5,7 @@ description = "Absolute Hieroglyphe"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "albumentationsx>=2.6.6",
     "importlib-resources==7.1.0",
     "matplotlib>=3.11.2",
     "opencv-python>=5.0.0.93",

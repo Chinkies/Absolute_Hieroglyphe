@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 # import tensorflow_datasets as tfds
 import pathlib
 
+tf.keras.utils.set_random_seed(1)
 data_dir = pathlib.Path('dataset')
 
 image_count_jpg = len(list(data_dir.glob('*/*.jpg')))

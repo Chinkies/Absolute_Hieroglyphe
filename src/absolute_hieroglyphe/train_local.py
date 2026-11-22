@@ -118,8 +118,8 @@ if not os.path.exists("plots"):
     os.mkdir("plots")
 
 # Accuracy
-plt.plot(history.history['accuracy'], color="tab:blue")
-plt.plot(history.history['val_accuracy'], color="tab:orange")
+plt.plot(history.history['accuracy'], scaley=False, color="tab:blue")
+plt.plot(history.history['val_accuracy'], scaley=False, color="tab:orange")
 plt.title("Model accuracy")
 plt.xlabel("Epoch")
 plt.ylabel("Accuracy")
@@ -129,8 +129,8 @@ plt.savefig(f"plots/accu_s{seed}_b{batch_size}_e{epochs}_c9.png")
 plt.close()
 
 # Loss
-plt.plot(history.history['loss'], color="tab:green")
-plt.plot(history.history['val_loss'], color="tab:red")
+plt.plot(history.history['loss'], scaley=False, color="tab:green")
+plt.plot(history.history['val_loss'], scaley=False, color="tab:red")
 plt.title("Model loss")
 plt.xlabel("Epoch")
 plt.ylabel("Loss")

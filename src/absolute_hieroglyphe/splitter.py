@@ -8,17 +8,23 @@ dst_dir = 'dataset/'
 
 indicies = {'₁': '_1', '₂': '_2',  '₃': '_3',  '₄': '_4',  '₅': '_5',  '₆': '_6',  '₇': '_7',  '₈': '_8',  '₉': '_9'}
 
-def split(col_name):
+def split(col_name, skip_split=False):
     col_index = -1
+    class_names = []
+
     with open(csv_file) as f:
         reader = csv.reader(f)
 
         if not os.path.isdir(dst_dir):
             os.mkdir(dst_dir)
-        if not os.path.isdir(dst_dir + 'yes/'):
-            os.mkdir(dst_dir + 'yes/')
-        if not os.path.isdir(dst_dir + 'no/'):
-            os.mkdir(dst_dir + 'no/')
+        else:
+            if not skip_split:
+                for file in os.listdir(dst_dir):
+                    path = os.path.join(dst_dir, file)
+                    if os.path.isfile(path):
+                        os.remove(path)
+                    else:
+                        shutil.rmtree(path)
 
         for row in reader:
             if col_index == -1:
@@ -29,12 +35,21 @@ def split(col_name):
                 if col_index == -1:
                     print(f"Error: '{col_name}' couldn't be found in the file.")
                     exit(1)
+                else:
+                    if skip_split:
+                        print("Skipping split")
+                        return col_index
+                continue
 
-            # TODO list available options
-            if row[col_index] == "non":
-                dst = dst_dir + 'no/'
-            else:
-                dst = dst_dir + 'yes/'
+            class_name = row[col_index]
+            if class_name == "" or class_name == "NA":
+                continue
+            if class_name not in class_names:
+                class_names.append(class_name)
+
+            dst = dst_dir + class_name + '/'
+            if not os.path.isdir(dst):
+                os.mkdir(dst)
 
             name = row[0].split(' (')[0]
             for match in indicies.items():

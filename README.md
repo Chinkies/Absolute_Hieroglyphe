@@ -17,7 +17,7 @@ Configurez l'environnement Python : `uv sync`
 
 ## Exécution
 
-Exécutez avec `uv run python main.py`
+Exécutez avec `uv run python src/absolute_hieroglyphe/main.py`
 
 ---
 

@@ -15,16 +15,22 @@
 \begin{document}
 \maketitle
 
-\subsection{Architecture GlyphNet?}
+\section{Architecture GlyphNet?}
 parag
 
-\subsection{Matrice de confusion}
+\section{Matrice de confusion}
 parag
 
-\subsection{Loss plot}
+\section{Loss plot}
 parag
 
-\subsection{Plot sous forme d'image}
+\section{Plot sous forme d'image}
 parag
+
+Nous allons explorer quatre approches afin de comparer leurs comportements sur nos classes : les \textit{Prototypical Networks} (construction d'un prototype par classe dans l'espace latent et classification par proximité), les \textit{Siamese Networks} (apprentissage d'une distance métrique entre paires ou triplets d'images), les \textit{Relation Networks} (apprentissage explicite d'un score de similarité entre représentations support et requête) et la classification épisodique $N$-way $K$-shot (entraînement et évaluation calqués sur des tâches à faible nombre d'exemples). Ce choix permet de couvrir les familles prototypiques, métriques et relationnelles sans recourir à des approches d'optimisation méta coûteuses comme MAML ou au \textit{zero-shot}.
+
+Pour mener ces expérimentations sans réécrire l'ensemble de l'infrastructure à la main, nous basculons la partie FSL vers \textbf{PyTorch} au sein de notre environnement \texttt{uv}, tout en conservant la pile existante pour le reste du projet. L'écosystème FSL étant nettement plus mature côté PyTorch, nous nous appuyons principalement sur \textbf{EasyFSL} pour la gestion des tâches épisodiques et les modèles prototypiques, ainsi que sur \textbf{pytorch-metric-learning} pour les approches métriques de type \textit{Siamese}, complétées par un module léger dédié aux \textit{Relation Networks}. Il restera ensuite à comparer l'apport d'un encodage classique avec celui de \textit{Glyphnet}, puis à étendre progressivement l'analyse à l'ensemble des classes.
+
+Nous avons commencé par le \textit{Prototypical Network}, et le \textit{Siamese Network} suivra ensuite. Le \textit{Prototypical Network} est actuellement en cours d'implémentation.
 
 \end{document}

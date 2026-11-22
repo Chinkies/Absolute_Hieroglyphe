@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 # import tensorflow_datasets as tfds
 import pathlib
 
-tf.keras.utils.set_random_seed(1)
+seed = 1
+tf.keras.utils.set_random_seed(seed)
 data_dir = pathlib.Path('dataset')
 
 image_count_jpg = len(list(data_dir.glob('*/*.jpg')))
@@ -112,13 +113,30 @@ print(f"Test accuracy : {score[1]:4.4f}")
 
 # Historique de la précision du modèle sur les jeux d'entraînement et de validation
 print(model.metrics_names)
-plt.plot(history.history['accuracy'])
-plt.plot(history.history['val_accuracy'])
+
+if not os.path.exists("plots"):
+    os.mkdir("plots")
+
+# Accuracy
+plt.plot(history.history['accuracy'], color="tab:blue")
+plt.plot(history.history['val_accuracy'], color="tab:orange")
 plt.title("Model accuracy")
 plt.xlabel("Epoch")
 plt.ylabel("Accuracy")
-plt.legend(['train', 'validation'], loc = 'upper left')
-plt.show()
+plt.legend(['train', 'validation'], loc='upper left')
+# TODO indiquer la colonne choisie
+plt.savefig(f"plots/accu_s{seed}_b{batch_size}_e{epochs}_c9.png")
+plt.close()
+
+# Loss
+plt.plot(history.history['loss'], color="tab:green")
+plt.plot(history.history['val_loss'], color="tab:red")
+plt.title("Model loss")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.legend(['train', 'validation'], loc='upper left')
+plt.savefig(f"plots/loss_s{seed}_b{batch_size}_e{epochs}_c9.png")
+plt.close()
 
 exit(0)
 

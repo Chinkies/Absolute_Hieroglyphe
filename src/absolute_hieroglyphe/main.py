@@ -1,11 +1,11 @@
-col_index = 9 # colonne "Pouces_distingues"
+col_name = "Pouces_distingues"
 seed = 92
 epochs = 4
 batch_size = 16
 
 print("--- Starting spliter ---")
 import splitter
-splitter.split(col_index)
+col_index = splitter.split(col_name)
 print("--- Spliter finished ---")
 
 # TODO call data expension here

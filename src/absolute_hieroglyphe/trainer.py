@@ -104,7 +104,7 @@ def train(seed, epochs, batch_size, col_index):
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.legend(['train', 'validation'], loc='upper left')
-    plt.savefig(f"plots/loss_s{seed}_b{batch_size}_e{epochs}_c9.png")
+    plt.savefig(f"plots/loss_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
     plt.close()
 
     # -------------------- Confusion Matrix --------------------
@@ -139,4 +139,4 @@ def train(seed, epochs, batch_size, col_index):
 
     fig.colorbar(res)
 
-    plt.savefig(f"plots/cmat_s{seed}_b{batch_size}_e{epochs}_c9.png")
+    plt.savefig(f"plots/cmat_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")

@@ -8,7 +8,8 @@ dst_dir = 'dataset/'
 
 indicies = {'₁': '_1', '₂': '_2',  '₃': '_3',  '₄': '_4',  '₅': '_5',  '₆': '_6',  '₇': '_7',  '₈': '_8',  '₉': '_9'}
 
-def split(col_index: int):
+def split(col_name):
+    col_index = -1
     with open(csv_file) as f:
         reader = csv.reader(f)
 
@@ -20,6 +21,14 @@ def split(col_index: int):
             os.mkdir(dst_dir + 'no/')
 
         for row in reader:
+            if col_index == -1:
+                for i in range(len(row)):
+                    if row[i] == col_name:
+                        col_index = i
+                        break
+                if col_index == -1:
+                    print(f"Error: '{col_name}' couldn't be found in the file.")
+                    exit(1)
 
             # TODO list available options
             if row[col_index] == "non":
@@ -42,3 +51,5 @@ def split(col_index: int):
                 shutil.copyfile(filename, dst + name + ext)
             else:
                 print(f"File '{filename}' doesn't exists")
+
+    return col_index

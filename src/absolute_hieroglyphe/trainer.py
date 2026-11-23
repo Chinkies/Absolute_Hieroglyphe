@@ -126,7 +126,7 @@ def train(seed, epochs, batch_size, col_index, col_name):
 
     fig = plt.figure()
     ax = fig.add_subplot()
-    res = ax.imshow(np.array(conf_mat), cmap=plt.cm.jet, interpolation='nearest')
+    res = ax.imshow(np.array(conf_mat), cmap=plt.cm.Blues, interpolation='nearest')
 
     plt.xticks(range(num_classes), class_names)
     plt.yticks(range(num_classes), class_names)

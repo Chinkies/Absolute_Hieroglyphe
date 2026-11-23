@@ -5,13 +5,13 @@ description = "Absolute Hieroglyphe"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "albumentationsx>=2.6.6",
+    "albumentations>=2.0.8",
     "importlib-resources==7.1.0",
     "matplotlib>=3.11.2",
-    "opencv-python>=5.0.0.93",
-    "scikit-learn==1.7.2",
+    "scikit-learn==1.9.1",
     "tensorflow-datasets==4.9.10",
     "tensorflow[and-cuda]==2.21",
+    "torch>=2.13.0",
 ]
 
 [project.scripts]
@@ -20,3 +20,11 @@ absolute-hieroglyphe = "absolute_hieroglyphe:main"
 [build-system]
 requires = ["uv_build>=0.13.8,<0.14.0"]
 build-backend = "uv_build"
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

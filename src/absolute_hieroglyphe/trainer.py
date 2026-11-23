@@ -128,12 +128,11 @@ def train(seed, epochs, batch_size, col_index):
     ax = fig.add_subplot()
     res = ax.imshow(np.array(conf_mat), cmap=plt.cm.jet, interpolation='nearest')
 
-    alphabet = [i for i in range(num_classes)]
-    plt.xticks(range(num_classes), alphabet[:num_classes])
-    plt.yticks(range(num_classes), alphabet[:num_classes])
+    plt.xticks(range(num_classes), class_names)
+    plt.yticks(range(num_classes), class_names)
 
-    for x in range(num_classes):
-        for tensor in range(num_classes):
+    for x in range(len(conf_mat[0])):
+        for tensor in range(len(conf_mat)):
             ax.annotate(str(conf_mat[x][tensor]), xy=(tensor, x),
                         horizontalalignment='center', verticalalignment='center')
 

@@ -35,14 +35,14 @@ Là aussi pour mieux cerner la précision du modèle.
     \centering
     \includegraphics[width=0.65\textwidth]{loss_s92_b16_e16_c4.png}
     \caption{}
-    \label{fig:curve_alpha}
+    \label{fig:curve_beta}
 \end{figure}
 
 \section{Seed}
 On a trouvé comment définir une seed sur le modèle afin d'avoir des entrainements reproductibles pour mieux tester nos modifications.
 
 \section{Changement d'architecture : GlyphNet}
-On a commencer à copier l'architecture de GlyphNet, un modèle de reconnaissance de hiéroglyphe, afin d'avoir de meilleurs résultats.
+On a commencé à copier l'architecture de GlyphNet, un modèle de reconnaissance de hiéroglyphe, afin d'avoir de meilleurs résultats.
 Pour l'instant sans trop de succès car il y a des erreurs.
 
 \section{Few Shot Learning}
@@ -52,5 +52,9 @@ Nous allons explorer quatre approches afin de comparer leurs comportements sur n
 Pour mener ces expérimentations sans réécrire l'ensemble de l'infrastructure à la main, nous basculons la partie FSL vers \textbf{PyTorch} au sein de notre environnement \texttt{uv}, tout en conservant la pile existante pour le reste du projet. L'écosystème FSL étant nettement plus mature côté PyTorch, nous nous appuyons principalement sur \textbf{EasyFSL} pour la gestion des tâches épisodiques et les modèles prototypiques, ainsi que sur \textbf{pytorch-metric-learning} pour les approches métriques de type \textit{Siamese}, complétées par un module léger dédié aux \textit{Relation Networks}. Il restera ensuite à comparer l'apport d'un encodage classique avec celui de \textit{Glyphnet}, puis à étendre progressivement l'analyse à l'ensemble des classes.
 
 Nous avons commencé par le \textit{Prototypical Network}, et le \textit{Siamese Network} suivra ensuite. Le \textit{Prototypical Network} est actuellement en cours d'implémentation.
+
+\section{Augmentation de données}
+
+Nous avons commencé à implémenter de l'augmentation de données à l'aide de la librairie AlbumentationsX
 
 \end{document}

@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 from sklearn.metrics import confusion_matrix
 
-def train(seed, epochs, batch_size, col_index):
+def train(seed, epochs, batch_size, col_index, col_name):
     # -------------------- Config --------------------
 
     img_height = 180
@@ -90,7 +90,7 @@ def train(seed, epochs, batch_size, col_index):
     # Accuracy
     plt.plot(history.history['accuracy'], scaley=False, color="tab:blue")
     plt.plot(history.history['val_accuracy'], scaley=False, color="tab:orange")
-    plt.title("Model accuracy")
+    plt.title(f"Model accuracy for {col_name}")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
     plt.legend(['train', 'validation'], loc='upper left')
@@ -100,7 +100,7 @@ def train(seed, epochs, batch_size, col_index):
     # Loss
     plt.plot(history.history['loss'], color="tab:green")
     plt.plot(history.history['val_loss'], color="tab:red")
-    plt.title("Model loss")
+    plt.title(f"Model loss for {col_name}")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.legend(['train', 'validation'], loc='upper left')
@@ -138,5 +138,6 @@ def train(seed, epochs, batch_size, col_index):
 
     fig.colorbar(res)
 
+    plt.title(f"Model confusion matrix for {col_name}")
     plt.savefig(f"plots/cmat_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
     plt.close()

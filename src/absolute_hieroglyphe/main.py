@@ -16,5 +16,5 @@ for col_name in col_names:
 
     print("--- Starting training ---")
     import trainer
-    trainer.train(seed, epochs, batch_size, col_index)
+    trainer.train(seed, epochs, batch_size, col_index, col_name)
     print("--- Trainning finished ---")

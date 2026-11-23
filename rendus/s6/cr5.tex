@@ -19,13 +19,32 @@
 parag
 
 \section{Matrice de confusion}
-parag
+On a ajouté la matrice de confusion, afin de mieux comprendre nos résultats.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{cmat_s92_b16_e16_c4.png}
+    \caption{}
+    \label{fig:curve_alpha}
+\end{figure}
+
+On remarque ici que le modèle prédit tout le temps le même label, car il n'y a pas assez de donnée dans le label "oui", ce qui donne une bonne précision 52/57 = 91\%, alors qu'en fait il est mauvais.
 
 \section{Loss plot}
-parag
+On a aussi ajouter le graphique de loss en fonction de l'epoch.
+Là aussi pour mieux cerner la précision du modèle.
 
-\section{Plot sous forme d'image}
-parag
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{loss_s92_b16_e16_c4.png}
+    \caption{}
+    \label{fig:curve_alpha}
+\end{figure}
+
+\section{Seed}
+On a trouvé comment définir une seed sur le modèle afin d'avoir des entrainements reproductibles pour mieux tester nos modifications.
+
+\section{Few Shot Learning}
 
 Nous allons explorer quatre approches afin de comparer leurs comportements sur nos classes : les \textit{Prototypical Networks} (construction d'un prototype par classe dans l'espace latent et classification par proximité), les \textit{Siamese Networks} (apprentissage d'une distance métrique entre paires ou triplets d'images), les \textit{Relation Networks} (apprentissage explicite d'un score de similarité entre représentations support et requête) et la classification épisodique $N$-way $K$-shot (entraînement et évaluation calqués sur des tâches à faible nombre d'exemples). Ce choix permet de couvrir les familles prototypiques, métriques et relationnelles sans recourir à des approches d'optimisation méta coûteuses comme MAML ou au \textit{zero-shot}.
 

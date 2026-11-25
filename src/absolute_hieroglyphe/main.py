@@ -20,6 +20,7 @@ for col_name in col_names:
 
     if rebuild_dataset:
         print(f"--- Starting image expansion ---")
+        agument.transform.set_random_seed(92)
         for folder in os.listdir("dataset"):
             directory = os.path.join("dataset/" + folder)
             agument.augment_folder(directory, directory, agument.transform, expansion_rate)

@@ -12,6 +12,7 @@ def train(seed, epochs, batch_size, col_index, col_name):
 
     img_height = 100
     img_width = 100
+    weight_file = f'models/model_c{col_index}.weights.h5'
 
     tf.keras.utils.set_random_seed(seed)
 
@@ -121,12 +122,14 @@ def train(seed, epochs, batch_size, col_index, col_name):
         shuffle=False
     )
 
+    if not os.path.isdir("models"):
+        os.mkdir("models")
 
 
+    model.save_weights(weight_file)
 
     # -------------------- Plots --------------------
 
-    score = model.evaluate(val_ds, verbose=0)
     if not os.path.isdir(f"plots/{col_name}"):
         os.mkdir(f"plots/{col_name}")
 

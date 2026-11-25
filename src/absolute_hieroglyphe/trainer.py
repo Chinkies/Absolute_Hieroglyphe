@@ -6,6 +6,7 @@ import numpy as np
 import tensorflow as tf
 from sklearn.metrics import confusion_matrix
 
+
 def train(seed, epochs, batch_size, col_index, col_name):
     # -------------------- Config --------------------
 
@@ -106,12 +107,12 @@ def train(seed, epochs, batch_size, col_index, col_name):
         tf.keras.layers.Dense(num_classes)
     ])
 
-    # -------------------- Model training --------------------
-
     model.compile(
         optimizer='adam',
         loss=tf.losses.SparseCategoricalCrossentropy(from_logits=True),
         metrics=['accuracy'])
+
+    # -------------------- Model training --------------------
 
     history = model.fit(
         train_ds,
@@ -122,12 +123,12 @@ def train(seed, epochs, batch_size, col_index, col_name):
 
 
 
+
     # -------------------- Plots --------------------
 
-    if not os.path.exists("plots"):
-        os.mkdir("plots")
-
     score = model.evaluate(val_ds, verbose=0)
+    if not os.path.isdir(f"plots/{col_name}"):
+        os.mkdir(f"plots/{col_name}")
 
     # Accuracy
     plt.plot(history.history['accuracy'], scaley=False, color="tab:blue")
@@ -136,7 +137,7 @@ def train(seed, epochs, batch_size, col_index, col_name):
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
     plt.legend(['train', 'validation'], loc='upper left')
-    plt.savefig(f"plots/accu_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
+    plt.savefig(f"plots/{col_name}/accu_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
     plt.close()
 
     # Loss
@@ -146,7 +147,7 @@ def train(seed, epochs, batch_size, col_index, col_name):
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.legend(['train', 'validation'], loc='upper left')
-    plt.savefig(f"plots/loss_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
+    plt.savefig(f"plots/{col_name}/loss_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
     plt.close()
 
     # -------------------- Confusion Matrix --------------------
@@ -181,5 +182,5 @@ def train(seed, epochs, batch_size, col_index, col_name):
     fig.colorbar(res)
 
     plt.title(f"Model confusion matrix for {col_name}")
-    plt.savefig(f"plots/cmat_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
+    plt.savefig(f"plots/{col_name}/cmat_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
     plt.close()

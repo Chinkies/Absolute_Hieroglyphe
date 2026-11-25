@@ -34,19 +34,12 @@ def train(seed, epochs, batch_size, col_index, col_name):
         image_size=(img_height, img_width),
         batch_size=batch_size)
 
-    class_names = train_ds.class_names
-    num_classes = len(class_names)
-
-    # -------------------- Normalization --------------------
-
-    normalization_layer = tf.keras.layers.Rescaling(1. / 255)
-    normalized_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))
-    image_batch, labels_batch = next(iter(normalized_ds))
-    first_image = image_batch[0]
-
     AUTOTUNE = tf.data.AUTOTUNE
     train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
     val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+
+    class_names = train_ds.class_names
+    num_classes = len(class_names)
 
     # -------------------- Layers --------------------
 

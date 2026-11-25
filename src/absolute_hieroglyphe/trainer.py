@@ -34,12 +34,12 @@ def train(seed, epochs, batch_size, col_index, col_name):
         image_size=(img_height, img_width),
         batch_size=batch_size)
 
+    class_names = train_ds.class_names
+    num_classes = len(class_names)
+
     AUTOTUNE = tf.data.AUTOTUNE
     train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
     val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
-
-    class_names = train_ds.class_names
-    num_classes = len(class_names)
 
     # -------------------- Layers --------------------
 

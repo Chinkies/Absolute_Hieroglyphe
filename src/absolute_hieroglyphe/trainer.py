@@ -9,8 +9,8 @@ from sklearn.metrics import confusion_matrix
 def train(seed, epochs, batch_size, col_index, col_name):
     # -------------------- Config --------------------
 
-    img_height = 180
-    img_width = 180
+    img_height = 100
+    img_width = 100
 
     tf.keras.utils.set_random_seed(seed)
 

@@ -5,7 +5,8 @@ import agument
 col_names = ["Type_monu", "Mains", "Forme_main", "Doigts", "Doigts_indiv", "Espacement doigts", "Nombre doigts", "Symétrie", "Pouces_distingues", "Angle des coudes", "Type de jointure", "Technique", "Pavois", "Couleur", "Bracelets", "Combinaison"]
 col_names = ["Pouces_distingues"]
 
-rebuild_dataset=True
+rebuild_dataset = True
+expansion_rate = 10
 seed = 92
 epochs = 4
 batch_size = 16
@@ -21,7 +22,7 @@ for col_name in col_names:
         print(f"--- Starting image expansion ---")
         for folder in os.listdir("dataset"):
             directory = os.path.join("dataset/" + folder)
-            agument.augment_folder(directory, directory, agument.transform)
+            agument.augment_folder(directory, directory, agument.transform, expansion_rate)
         print("--- Expansion finished ---")
     else:
         print("--- Skipping image expansion ---")

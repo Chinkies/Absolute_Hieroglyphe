@@ -8,6 +8,7 @@
 - Semaine 5: [CR4](rendus/s5/cr4.pdf)
     - Oral 1: [Présentation](rendus/s5/Présentation%20avancement%20-%20oral%201.pdf)
 - Semaine 6: [CR5](rendus/s6/cr5.pdf)
+- Semaine 7: [CR6](rendus/s6/cr6.pdf)
 
 ## Installation
 

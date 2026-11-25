@@ -80,8 +80,8 @@ def augment_folder(path_in, path_out, alb_compose, nb_variants=10):
     )
 
 
-dataset_path = "data/Image_DAO_Sith"
-out_dir = "dataset/augmented/"
+# dataset_path = "data/Image_DAO_Sith"
+# out_dir = "dataset/augmented/"
 
 angle_limit = 10
 rgb_limit = 30
@@ -101,5 +101,5 @@ transform = A.Compose(
 
 # augment_folder(dataset_path, out_dir, transform)
 # reduce_folder("dataset/yes")
-augment_folder("dataset/yes/", "dataset/yes/", transform)
-augment_folder("dataset/no/", "dataset/no/", transform)
+# augment_folder("dataset/yes/", "dataset/yes/", transform)
+# augment_folder("dataset/no/", "dataset/no/", transform)

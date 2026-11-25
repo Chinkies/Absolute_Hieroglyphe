@@ -1,20 +1,32 @@
+import os
+
+import agument
+
 col_names = ["Type_monu", "Mains", "Forme_main", "Doigts", "Doigts_indiv", "Espacement doigts", "Nombre doigts", "Symétrie", "Pouces_distingues", "Angle des coudes", "Type de jointure", "Technique", "Pavois", "Couleur", "Bracelets", "Combinaison"]
 col_names = ["Pouces_distingues"]
 
+rebuild_dataset=True
 seed = 92
 epochs = 4
 batch_size = 16
 
 for col_name in col_names:
 
-    print("--- Starting spliter ---")
+    print("--- Starting splitter ---")
     import splitter
-    col_index = splitter.split(col_name, False)
-    print("--- Spliter finished ---")
+    col_index = splitter.split(col_name, not rebuild_dataset)
+    print("--- Splitter finished ---")
 
-    # TODO call data expension here
+    if rebuild_dataset:
+        print(f"--- Starting image expansion ---")
+        for folder in os.listdir("dataset"):
+            directory = os.path.join("dataset/" + folder)
+            agument.augment_folder(directory, directory, agument.transform)
+        print("--- Expansion finished ---")
+    else:
+        print("--- Skipping image expansion ---")
 
-    print("--- Starting training ---")
+    print(f"--- Starting training for {col_name} ({col_index}) ---")
     import trainer
     trainer.train(seed, epochs, batch_size, col_index, col_name)
     print("--- Trainning finished ---")

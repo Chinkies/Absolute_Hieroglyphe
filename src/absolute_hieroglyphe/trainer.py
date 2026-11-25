@@ -50,7 +50,6 @@ def train(seed, epochs, batch_size, col_index, col_name):
 
     # -------------------- Layers --------------------
 
-    # TODO jouer avec les layers -> GlyphNet
     model = tf.keras.Sequential([
         tf.keras.layers.Rescaling(1./255),
         tf.keras.layers.Conv2D(32, 3, activation='relu'),
@@ -59,6 +58,56 @@ def train(seed, epochs, batch_size, col_index, col_name):
         tf.keras.layers.MaxPooling2D(),
         tf.keras.layers.Conv2D(32, 3, activation='relu'),
         tf.keras.layers.MaxPooling2D(),
+
+        # tf.keras.layers.Conv2D(64, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2)),
+        # tf.keras.layers.ReLU(),
+        # tf.keras.layers.Conv2D(64, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2)),
+        # tf.keras.layers.ReLU(),
+        #
+        # tf.keras.layers.SeparableConv2D(128, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.ReLU(),
+        # tf.keras.layers.SeparableConv2D(128, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2)),
+        # tf.keras.layers.ReLU(),
+        #
+        # tf.keras.layers.SeparableConv2D(128, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.ReLU(),
+        # tf.keras.layers.SeparableConv2D(128, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2)),
+        # tf.keras.layers.ReLU(),
+
+        # TODO finir architecture GlyphNet
+        # tf.keras.layers.SeparableConv2D(256, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.ReLU(),
+        # tf.keras.layers.SeparableConv2D(256, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2)),
+        # tf.keras.layers.ReLU(),
+        #
+        # tf.keras.layers.SeparableConv2D(256, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.ReLU(),
+        # tf.keras.layers.SeparableConv2D(256, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2)),
+        # tf.keras.layers.ReLU(),
+
+        # tf.keras.layers.SeparableConv2D(512, kernel_size=3, strides=(1, 1)),
+        # tf.keras.layers.BatchNormalization(),
+        # tf.keras.layers.ReLU(),
+        # tf.keras.layers.GlobalAveragePooling2D(),
+        # tf.keras.layers.Dropout(0.15),
+        # tf.keras.layers.Softmax(),
+
         tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(128, activation='relu'),
         tf.keras.layers.Dense(num_classes)

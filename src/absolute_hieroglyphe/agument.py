@@ -1,7 +1,16 @@
 import albumentations as A
 import cv2 as cv
+from math import ceil
+from statistics import median_high
 from pathlib import Path
 import re
+
+
+def parse_folder(path):
+    folder_path = Path(path)
+    if not folder_path.is_dir():
+        raise RuntimeError(f"Erreur: le dossier {path} n'existe pas !")
+    return folder_path
 
 
 def augment_image(img, name, alb_compose, nb_variants=10):
@@ -12,14 +21,14 @@ def augment_image(img, name, alb_compose, nb_variants=10):
     return imgs
 
 
-def reduce_folder(path):
-    folder_path = Path(path)
-    if not folder_path.is_dir():
-        raise RuntimeError(f"Erreur: le dossier {path} n'existe pas !")
+def reduce_folder(path, recursive=False):
+    folder_path = parse_folder(path)
     pattern = re.compile(r"^(?P<base>.+)_aug(?P<k>\d+)\.png$")
     augmented = total = 0
     for p in sorted(folder_path.iterdir()):
         if not p.is_file():
+            if recursive and p.is_dir():
+                reduce_folder(p)
             continue
         if pattern.match(p.name):
             p.unlink()
@@ -33,15 +42,46 @@ def save_imgs(path, imgs):
         cv.imwrite(str(path / name), cv.cvtColor(img, cv.COLOR_RGB2BGR))
 
 
+AUG_PATTERN = re.compile(r"^(?P<base>.+)_aug(?P<k>\d+)\.png$")
+
+
+def count_classes(root):
+    counts = {}
+    for class_dir in sorted(root.iterdir()):
+        if class_dir.is_dir():
+            counts[class_dir.name] = sum(
+                1
+                for f in class_dir.iterdir()
+                if f.is_file() and not AUG_PATTERN.match(f.name)
+            )
+    return counts
+
+
+def variants_needed(counts, base_variants):
+    target = median_high(counts.values())
+    goal = target * (base_variants)
+    return {c: int(ceil(max(0, goal / n))) for c, n in counts.items()}
+
+
+def augment_classes_even(class_root, alb_compose, base_variants=10):
+    root = parse_folder(class_root)
+    reduce_folder(root, recursive=True)
+    count = count_classes(root)
+    imagesToAdd = variants_needed(count, base_variants)
+    print(f"Augmenting {len(count)} classes by {base_variants} (uncompensed)...")
+    for folder, correction in imagesToAdd.items():
+        class_path = root / folder
+        print(
+            f"Augmenting class {folder} by {correction} images per img"
+        )
+        augment_folder(class_path, class_path, alb_compose, correction)
+
+
 def augment_folder(path_in, path_out, alb_compose, nb_variants=10):
-    input_path = Path(path_in)
-    output_path = Path(path_out)
-    if not input_path.is_dir():
-        raise RuntimeError(f"Erreur: le dossier {path_in} n'existe pas !")
-    if not output_path.is_dir():
-        raise RuntimeError(f"Erreur: le dossier {path_out} n'existe pas !")
+    input_path = parse_folder(path_in)
+    output_path = parse_folder(path_out)
     print("Augmenting folder", path_in, end="")
-    if (path_in == path_out):
+    if path_in == path_out:
         print()
     else:
         print(" into", path_out)
@@ -59,7 +99,9 @@ def augment_folder(path_in, path_out, alb_compose, nb_variants=10):
                 f"Attention: données déjà augmentée détectées ! ({p.name})\nNettoyez le dataset"
             )
         else:
-            image = cv.imread(str(p), )
+            image = cv.imread(
+                str(p),
+            )
             if image is None:
                 bugged += 1
                 print("\r\033[K", end="", flush=True)
@@ -79,6 +121,7 @@ def augment_folder(path_in, path_out, alb_compose, nb_variants=10):
         f"Augmentation done ! ok: {processed}, ko: {bugged}, ign: {total - processed - bugged}, total: {total}"
     )
 
+
 # Test transformer
 angle_limit = 10
 rgb_limit = 30
@@ -96,3 +139,12 @@ transform = A.Compose(
         ),
     ]
 )
+
+# dataset = parse_folder("dataset/")
+# classCount = count_classes(dataset)
+
+# imagesToAdd = variants_needed(classCount, 10)
+
+# print(imagesToAdd)
+
+augment_classes_even("dataset/", transform, 10)

@@ -79,15 +79,13 @@ def augment_folder(path_in, path_out, alb_compose, nb_variants=10):
         f"Augmentation done ! ok: {processed}, ko: {bugged}, ign: {total - processed - bugged}, total: {total}"
     )
 
-
-# dataset_path = "data/Image_DAO_Sith"
-# out_dir = "dataset/augmented/"
-
+# Test transformer
 angle_limit = 10
 rgb_limit = 30
 transform = A.Compose(
     [
-        A.Rotate(limit=(-angle_limit, angle_limit), p=0.7),
+        A.Rotate(limit=(-angle_limit, angle_limit), p=0.6),
+        A.GaussNoise(std_range=(0.1, 0.2), p=0.5),
         A.RandomBrightnessContrast(p=0.5),
         A.ToSepia(p=0.4),
         A.RGBShift(
@@ -98,8 +96,3 @@ transform = A.Compose(
         ),
     ]
 )
-
-# augment_folder(dataset_path, out_dir, transform)
-# reduce_folder("dataset/yes")
-# augment_folder("dataset/yes/", "dataset/yes/", transform)
-# augment_folder("dataset/no/", "dataset/no/", transform)

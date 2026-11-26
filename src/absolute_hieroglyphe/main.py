@@ -1,6 +1,7 @@
 import os
-
-import agument
+from absolute_hieroglyphe import agument
+from absolute_hieroglyphe import splitter
+from absolute_hieroglyphe import trainer
 
 col_names = ["Type_monu", "Mains", "Forme_main", "Doigts", "Doigts_indiv", "Espacement doigts", "Nombre doigts", "Symétrie", "Pouces_distingues", "Angle des coudes", "Type de jointure", "Technique", "Pavois", "Couleur", "Bracelets", "Combinaison"]
 col_names = ["Pouces_distingues"]
@@ -14,7 +15,6 @@ batch_size = 16
 for col_name in col_names:
 
     print("--- Starting splitter ---")
-    import splitter
     col_index = splitter.split(col_name, not rebuild_dataset)
     print("--- Splitter finished ---")
 
@@ -29,6 +29,5 @@ for col_name in col_names:
         print("--- Skipping image expansion ---")
 
     print(f"--- Starting training for {col_name} ({col_index}) ---")
-    import trainer
     trainer.train(seed, epochs, batch_size, col_index, col_name)
     print("--- Trainning finished ---")

@@ -1,16 +1,22 @@
 import os
+
 from absolute_hieroglyphe import agument
 from absolute_hieroglyphe import splitter
 from absolute_hieroglyphe import trainer
+from absolute_hieroglyphe import tester
 
 col_names = ["Type_monu", "Mains", "Forme_main", "Doigts", "Doigts_indiv", "Espacement doigts", "Nombre doigts", "Symétrie", "Pouces_distingues", "Angle des coudes", "Type de jointure", "Technique", "Pavois", "Couleur", "Bracelets", "Combinaison"]
 col_names = ["Pouces_distingues"]
 
 rebuild_dataset = True
 expansion_rate = 10
+skip_training = False
 seed = 92
 epochs = 4
 batch_size = 16
+skip_testing = False
+test_image = "data/Dataset_compl._MB/abydos_ramsesII_1.jpg"
+test_folder = "data/Dataset_compl._MB/"
 
 for col_name in col_names:
 
@@ -28,6 +34,16 @@ for col_name in col_names:
     else:
         print("--- Skipping image expansion ---")
 
-    print(f"--- Starting training for {col_name} ({col_index}) ---")
-    trainer.train(seed, epochs, batch_size, col_index, col_name)
-    print("--- Trainning finished ---")
+    if not skip_training:
+        print(f"--- Starting training for {col_name} ({col_index}) ---")
+        trainer.train(seed, epochs, batch_size, col_index, col_name)
+        print("--- Trainning finished ---")
+    else:
+        print("--- Skipping training ---")
+
+    if not skip_testing:
+        print(f"--- Starting tester for {col_name} ({col_index}) ---")
+        tester.test(seed, epochs, batch_size, col_index, col_name, test_image, test_folder)
+        print("--- Testing finished ---")
+    else:
+        print("--- Skipping testing ---")

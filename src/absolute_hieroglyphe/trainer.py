@@ -2,9 +2,7 @@ import os
 import pathlib
 
 import matplotlib.pyplot as plt
-import numpy as np
 import tensorflow as tf
-from sklearn.metrics import confusion_matrix
 
 
 def train(seed, epochs, batch_size, col_index, col_name):
@@ -12,7 +10,7 @@ def train(seed, epochs, batch_size, col_index, col_name):
 
     img_height = 100
     img_width = 100
-    weight_file = f'models/model_c{col_index}.weights.h5'
+    weight_file = f'models/model_s{seed}_b{batch_size}_e{epochs}_c{col_index}.weights.h5'
 
     tf.keras.utils.set_random_seed(seed)
 
@@ -39,9 +37,9 @@ def train(seed, epochs, batch_size, col_index, col_name):
     class_names = train_ds.class_names
     num_classes = len(class_names)
 
-    AUTOTUNE = tf.data.AUTOTUNE
-    train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
-    val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+    autotune = tf.data.AUTOTUNE
+    train_ds = train_ds.cache().prefetch(buffer_size=autotune)
+    val_ds = val_ds.cache().prefetch(buffer_size=autotune)
 
     # -------------------- Layers --------------------
 
@@ -125,7 +123,6 @@ def train(seed, epochs, batch_size, col_index, col_name):
     if not os.path.isdir("models"):
         os.mkdir("models")
 
-
     model.save_weights(weight_file)
 
     # -------------------- Plots --------------------
@@ -151,39 +148,4 @@ def train(seed, epochs, batch_size, col_index, col_name):
     plt.ylabel("Loss")
     plt.legend(['train', 'validation'], loc='upper left')
     plt.savefig(f"plots/{col_name}/loss_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
-    plt.close()
-
-    # -------------------- Confusion Matrix --------------------
-
-    y_test_list = []
-    for image_batch, labels_batch in val_ds:
-        y_test_list.append(labels_batch)
-
-    y_test = []
-    for batch in y_test_list:
-        for tensor in batch:
-            y_test.append(int(tensor))
-
-    y_pred = model.predict(val_ds, batch_size=batch_size)
-    y_pred = np.argmax(y_pred, axis=1)
-
-    conf_mat = confusion_matrix(y_test, y_pred)
-    print("Confusion matrix :", conf_mat)
-
-    fig = plt.figure()
-    ax = fig.add_subplot()
-    res = ax.imshow(np.array(conf_mat), cmap=plt.cm.Blues, interpolation='nearest')
-
-    plt.xticks(range(num_classes), class_names)
-    plt.yticks(range(num_classes), class_names)
-
-    for x in range(len(conf_mat[0])):
-        for tensor in range(len(conf_mat)):
-            ax.annotate(str(conf_mat[x][tensor]), xy=(tensor, x),
-                        horizontalalignment='center', verticalalignment='center')
-
-    fig.colorbar(res)
-
-    plt.title(f"Model confusion matrix for {col_name}")
-    plt.savefig(f"plots/{col_name}/cmat_s{seed}_b{batch_size}_e{epochs}_c{col_index}.png")
     plt.close()
